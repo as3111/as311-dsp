@@ -1,0 +1,428 @@
+EXP 2
+n = -10:10; % Sample range
+impulse = (n == 0); % Unit impulse signal
+figure;
+stem(n, impulse, 'filled');
+title('Unit Impulse Signal');
+xlabel('n');
+ylabel('Amplitude');
+grid on;
+
+n = -10:10; % Sample range
+step = (n >= 0); % Unit step signal
+figure;
+stem(n, step, 'filled');
+title('Unit Step Signal');
+xlabel('n');
+ylabel('Amplitude');
+grid on;
+
+n = 0:20; % Sample range
+f_sin = 0.1; % Frequency in cycles per sample
+sinusoidal = sin(2 * pi * f_sin * n); % Sinusoidal signal
+figure;
+stem(n, sinusoidal, 'filled');
+title('Sinusoidal Signal');
+xlabel('n');
+ylabel('Amplitude');
+grid on;
+
+n = 0:20;
+f_cos = 0.1; % Frequency in cycles per sample
+cosine_signal = cos(2 * pi * f_cos * n);
+figure;
+stem(n, cosine_signal, 'filled');
+title('Cosine Signal');
+xlabel('n'); ylabel('Amplitude');
+grid on;
+
+n = 0:20;
+T = 10;
+sawtooth_wave = mod(n, T) / T;
+figure;
+stem(n, sawtooth_wave, 'filled');
+title('Sawtooth Wave');
+xlabel('n');
+ylabel('Amplitude');
+grid on;
+
+Exp 3
+
+numerator = 1; % Numerator coefficients
+denominator = [1 2 1]; % Denominator coefficients
+sys = tf (numerator, denominator);
+syms s;
+H_s = poly2sym(numerator, s) / poly2sym(denominator, s);
+impulse_response = ilaplace(H_s);
+t = 0:0.1:10;
+impulse_response_numeric = double(subs(impulse_response, t));
+stem(t, impulse_response_numeric);
+title('Impulse Response');
+xlabel('Time (seconds)');
+ylabel('Amplitude');
+
+EXP 4
+
+% MATLAB script to calculate DFT and IDFT
+clc;
+clear;
+close all;
+% Define the input signal x[n]
+x = [1 2 3 4]; % Example input sequence
+% Calculate the DFT using the built-in function
+X = fft(x); % Discrete Fourier Transform
+% Calculate the IDFT using the built-in function
+x_reconstructed = ifft(X); % Inverse Discrete Fourier Transform
+% Plot the original signal
+subplot(3,1,1);
+stem(x, 'filled');
+title('Original Signal x[n]');
+xlabel('n');
+ylabel('Amplitude');
+% Plot the magnitude of the DFT
+subplot(3,1,2);
+stem(abs(X), 'filled');
+title('Magnitude of DFT X[k]');
+xlabel('k');
+ylabel('|X[k]|');
+% Plot the reconstructed signal after IDFT
+subplot(3,1,3);
+stem(real(x_reconstructed), 'filled'); % Only the real part
+title('Reconstructed Signal x[n] (IDFT)');
+xlabel('n');
+ylabel('Amplitude');
+% Display the DFT and IDFT results
+disp('DFT of the signal x[n]:');
+disp(X);
+disp('Reconstructed signal using IDFT:');
+disp(x_reconstructed);
+
+EXP 5
+
+x = input('Enter the first sequence x(n): ');
+h = input('Enter the second sequence h(n): ');
+y = conv(x, h);
+disp('The linear convolution of x(n) and h(n) is: ');
+disp(y);
+subplot(3,1,1);
+stem(x, 'filled');
+title('Input Sequence x(n)');
+xlabel('n');
+ylabel('x(n)');
+grid on;
+subplot(3,1,2);
+stem(h, 'filled');
+title('Input Sequence h(n)');
+xlabel('n');
+ylabel('h(n)');
+grid on;
+subplot(3,1,3);
+stem(y, 'filled');
+title('Linear Convolution Result y(n)');
+xlabel('n');
+ylabel('y(n)');
+grid on;
+
+EXP 6
+
+clc;
+load('100m.mat');
+load('100m_2.mat');
+ECGsignal = (val - 1024) / 200;
+Fs = 360;
+t = (0:length(ECGsignal)-1) / Fs;
+plot(t, ECGsignal);
+% Step 1: Load the first ECG signal data from a .mat file
+load('100m.mat'); % Replace with your actual file path
+ECGsignal1 = (val - 1024) / 200; % Normalization for the first signal
+Fs1 = 360; % Sampling frequency for the first signal (modify as needed)
+t1 = (0:length(ECGsignal1)-1) / Fs1; % Create time vector for the first signal
+% Step 2: Load the second ECG signal data from a different file
+load('800m.mat'); % Replace with your second file path
+ECGsignal2 = (val - 1024) / 200; % Normalization for the second signal
+Fs2 = 360; % Sampling frequency for the second signal
+t2 = (0:length(ECGsignal2)-1) / Fs2; % Create time vector for the second
+signal
+% Step 3: Create a subplot for the first ECG signal
+figure;
+subplot(2, 1, 1); % Create a 2x1 grid, and use the first subplot
+plot(t1, ECGsignal1, 'b'); % Plot the first signal in blue
+xlabel('Time (s)');
+ylabel('Amplitude (mV)');
+title('ECG Signal 1');
+grid on;
+% Step 4: Create a subplot for the second ECG signal
+subplot(2, 1, 2); % Use the second subplot in a 2x1 grid
+plot(t2, ECGsignal2, 'r'); % Plot the second signal in red
+xlabel('Time (s)');
+ylabel('Amplitude (mV)');
+title('ECG Signal 2');
+grid on;
+% Optional: Save the figure with both subplots
+saveas(gcf, 'ECG_Signals_Subplots.png')
+
+EXP 7
+
+Clc;
+clear all;
+close all;
+N=1024;
+fs=8000;
+f=input('enter the frequency[1 to 5000]:');
+n=0:N-1;
+x=sin(2*pi*(f/fs)*n) px=spectrum(x,N);
+specplot(pxx,fs);
+grid on xlabel('freq(hz)');
+ylabel('magnitude(db)');
+title('power spectrum of x(n)');
+
+EXP 8
+
+Clc; 
+Clear all; 
+Close all;
+t = -2:0.05:2;
+x=input('enter the input number'); 
+fr1=697;
+fr2=770; 
+fr3=852; 
+fr4=941; 
+fc1=1209;
+fc2=1336;
+fc3=1477;
+fc4=1633;
+y0 = sin(2*pi*fr4*t) + sin(2*pi*fc2*t); % 0 
+y1 = sin(2*pi*fr1*t) + sin(2*pi*fc1*t); % 1 
+y2 = sin(2*pi*fr1*t) + sin(2*pi*fc2*t); % 2 
+y3 = sin(2*pi*fr1*t) + sin(2*pi*fc3*t); % 3
+y4 = sin(2*pi*fr2*t) + sin(2*pi*fc1*t); % 4 
+y5 = sin(2*pi*fr2*t) + sin(2*pi*fc2*t); % 5 
+y6 = sin(2*pi*fr2*t) + sin(2*pi*fc3*t); % 6 
+y7 = sin(2*pi*fr3*t) + sin(2*pi*fc1*t); % 7 
+y8 = sin(2*pi*fr3*t) + sin(2*pi*fc2*t); % 8 
+y9 = sin(2*pi*fr3*t) + sin(2*pi*fc3*t); % 9
+y_start = sin(2*pi*fr4*t) + sin(2*pi*fc1*t); % * 
+y_canc = sin(2*pi*fr4*t) + sin(2*pi*fc3*t); % # 
+if (x==1)
+plot(t,y1) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==2) 
+plot(t,y2) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==3) 
+plot(t,y3) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==4) 
+plot(t,y4) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==5) 
+plot(t,y5) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==6) 
+plot(t,y6) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==7) 
+plot(t,y7) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==8) 
+plot(t,y8) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==9) 
+plot(t,y9) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==0) 
+plot(t,y0) 
+xlabel('time(t)') 
+ylabel('amplitude')
+elseif (x==11) 
+plot(t,y_start)
+xlabel('time(t)') 
+ylabel('amplitude') 
+elseif (x==12) 
+plot(t,y_canc) 
+xlabel('time(t)') 
+ylabel('amplitude')
+else
+disp('enter the correct input') 
+end
+Expected Waveform:
+Enter the input number = 7
+
+Exp 9
+
+Clc; 
+Clear all; 
+Close all;
+D=input('enter the downsampling factor'); 
+L=input('enter the length of the input signal'); 
+f1=input('enter the frequency of first sinusodal'); 
+f2=input('enter the frequency of second sinusodal'); 
+n=0:L-1;
+x=sin(2*pi*f1*n)+sin(2*pi*f2*n); 
+y=decimate(x,D,'fir');
+subplot(2,1,1);
+stem(n,x(1:L)); 
+title('input sequence'); 
+xlabel('time(n)'); 
+ylabel('amplitude'); 
+subplot(2,1,2) 
+m=0:(L/D)-1;
+stem(m,y(1:L/D)); 
+title('Decimated sequence'); 
+xlabel('time(n)'); 
+ylabel('amplitude');
+Expected Waveforms:
+enter the downsampling factor = 5
+enter the length of the input signal = 100 
+enter the frequency of first sinusoidal = 0.01
+enter the frequency of second sinusoidal = 0.03
+
+Clc; 
+Clear all; 
+Close all;
+L=input('enter the upsampling factor');
+N=input('enter the length of the input signal'); % Length should be greater than 8 
+f1=input('enter the frequency of first sinusodal');
+f2=input('enter the frequency of second sinusodal'); 
+n=0:N-1;
+x=sin(2*pi*f1*n)+sin(2*pi*f2*n); 
+y=interp(x,L);
+subplot(2,1,1) 
+stem(n,x(1:N)) 
+title('input sequence'); 
+xlabel('time(n)'); 
+ylabel('amplitude'); 
+subplot(2,1,2) 
+m=0:N*L-1;
+stem(m,y(1:N*L)) 
+title('output sequence ');
+xlabel('time(n)'); 
+ylabel('amplitude');
+Expected Waveforms:
+enter the upsampling factor = 5
+enter the length of the input signal = 9 
+enter the frequency of first sinusoidal = 0.1
+enter the frequency of second sinusoidal = 0.3
+
+EXP 10
+
+clc; 
+clear all; 
+close all; 
+n=20; 
+fp=200; 
+fq=300; 
+fs=1000;
+fn=2*fp/fs; 
+window=blackman(n+1); 
+b=fir1(n,fn,window);
+[H W]=freqz(b,1,128);
+subplot(2,1,1);
+plot(W/pi,abs(H)); 
+title('magnitude response of lpf'); 
+ylabel('gain in db ------->');
+xlabel('normalized frequency ----->');
+subplot(2,1,2); 
+plot(W/pi,angle(H)); 
+title('phase response of lpf'); 
+ylabel('angle ------ >');
+xlabel('normalized frequency ----->');
+
+clc; 
+clear all; 
+close all; 
+n=20; 
+fp=300; 
+fq=200; 
+fs=1000;
+fn=2*fp/fs; 
+window=blackman(n+1); 
+b=fir1(n,fn,'high',window); 
+[H W]=freqz(b,1,128);
+subplot(2,1,1);
+plot(W/pi,abs(H)); 
+title('mag res of lpf'); 
+ylabel('gain in db ------->');
+xlabel('normalized frequency ----->');
+subplot(2,1,2); 
+plot(W/pi,angle(H)); 
+title('phase res of lpf'); 
+ylabel('angle ------ >');
+xlabel('normalized frequency ----->');
+
+EXP 11
+
+clc; 
+clear all; 
+close all;
+disp('enter the IIR filter design specifications'); 
+rp=input('enter the passband ripple:'); 
+rs=input('enter the stopband ripple:'); 
+wp=input('enter the passband freq:'); 
+ws=input('enter the stopband freq:'); 
+fs=input('enter the sampling freq:'); 
+w1=2*wp/fs;w2=2*ws/fs; 
+[n,wn]=buttord(w1,w2,rp,rs,'s'); 
+disp('Frequency response of IIR LPF is:'); 
+[b,a]=butter(n,wn,'low','s');
+w=0:.01:pi;
+[h,om]=freqs(b,a,w); 
+m=20*log10(abs(h)); 
+an=angle(h);
+figure,subplot(2,1,1);plot(om/pi,m); 
+title('magnitude response of IIR filter is:'); 
+xlabel('(a) Normalized freq. -->'); 
+ylabel('Gain in dB-->'); 
+subplot(2,1,2);plot(om/pi,an);
+title('phase response of IIR filter is:'); 
+xlabel('(b) Normalized freq. -->'); 
+ylabel('Phase in radians-->');
+Expected waveforms:
+enter the IIR filter design specifications 
+enter the passband ripple:15
+enter the stopband ripple:60 
+enter the passband freq:1500 
+enter the stopband freq:3000 
+enter the sampling freq:7000
+
+clc; 
+clear all; 
+close all;
+disp('enter the IIR filter design specifications'); 
+rp=input('enter the passband ripple'); 
+rs=input('enter the stopband ripple'); 
+wp=input('enter the passband freq'); 
+ws=input('enter the stopband freq'); 
+fs=input('enter the sampling freq'); 
+w1=2*wp/fs;w2=2*ws/fs; 
+[n,wn]=buttord(w1,w2,rp,rs,'s');
+disp('Frequency response of IIR HPF is:'); 
+[b,a]=butter(n,wn,'high','s');
+w=0:.01:pi;
+[h,om]=freqs(b,a,w); 
+m=20*log10(abs(h)); 
+an=angle(h);
+figure,subplot(2,1,1);plot(om/pi,m); 
+title('magnitude response of IIR filter is:'); 
+xlabel('(a) Normalized freq. -->'); 
+ylabel('Gain in dB-->'); 
+subplot(2,1,2);plot(om/pi,an);
+title('phase response of IIR filter is:'); 
+xlabel('(b) Normalized freq. -->'); 
+ylabel('Phase in radians-->');
+INPUT:
+enter the IIR filter design specifications 
+enter the passband ripple15
+enter the stopband ripple60 
+enter the passband freq1500 
+enter the stopband freq3000 
+enter the sampling freq7000
